@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.List;
 
+import nan.javalearn.common.Message;
+
 public class SocketUtil {
 	/**
 	 * 
@@ -62,12 +64,43 @@ public class SocketUtil {
 	 * @param length The length of bytes need to read.
 	 * @return The bytes read from Inputstream.
 	 */
-	public static byte[] readMessage(InputStream is, int length){
+	public static byte[] readMsgContent(InputStream is, int length){
 		try {
 			byte[] buf = new byte[length];
 			is.read(buf);
 			return buf;
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * Read message from bytes.
+	 * @param bytes Byte array source.
+	 * @return Message String.
+	 */
+	public static String readMsgContent(byte[] bytes){
+		try {
+			String message = new String(bytes);
+			return message;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * Read message from bytes as specified charset.
+	 * @param bytes Byte array source.
+	 * @param charSet Specified charset.
+	 * @return Message String.
+	 */
+	public static String readMsgContent(byte[] bytes, String charSet){
+		try {
+			String message = new String(bytes, charSet);
+			return message;
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -91,40 +124,21 @@ public class SocketUtil {
 		return null;
 	}
 	
-	/**
-	 * Read message from bytes.
-	 * @param bytes Byte array source.
-	 * @return Message String.
-	 */
-	public static String readMessage(byte[] bytes){
-		try {
-			String message = new String(bytes);
-			return message;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	/**
-	 * Read message from bytes as specified charset.
-	 * @param bytes Byte array source.
-	 * @param charSet Specified charset.
-	 * @return Message String.
-	 */
-	public static String readMessage(byte[] bytes, String charSet){
-		try {
-			String message = new String(bytes, charSet);
-			return message;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
 	public static String sendMessage(OutputStream os, String txt){
 		try {
 			os.write(int2byteArray(txt.length()));
+			os.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static String sendMessage(OutputStream os, Message msg){
+		try {
+			os.write(msg.getMessagePack());
+			os.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

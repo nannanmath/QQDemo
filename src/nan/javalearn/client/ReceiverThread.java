@@ -31,12 +31,12 @@ public class ReceiverThread extends Thread {
 	private void processMsg() {
 		int type = SocketUtil.readMsgType(is);
 		int len = SocketUtil.readMsgLength(is);
-		byte[] bytes = SocketUtil.readMessage(is, len);
+		byte[] bytes = SocketUtil.readMsgContent(is, len);
 		if(type == 0){ // friend list
 			List<String> friends = SocketUtil.readFriends(bytes);
 			qqWindow.refreshFriends(friends);
 		} else if(type == 1){ // message content
-			String message = SocketUtil.readMessage(bytes);
+			String message = SocketUtil.readMsgContent(bytes);
 			qqWindow.appendHistory(message);
 		} else {
 			System.out.println("Type is Error!");

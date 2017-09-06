@@ -1,19 +1,17 @@
 package nan.javalearn.server;
 
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import nan.javalearn.client.QQWindow;
-
 public class MessageServer {
+	public static List<String> friends = new ArrayList<String>();
+	// Save all sockets who connect to server.
+	public static List<Socket> sockets = new ArrayList<Socket>();
+	
 	private int port = 1234;
 	
 	public void start() {
@@ -22,6 +20,8 @@ public class MessageServer {
 			System.out.println("Message Server Start!");
 			while(true){
 				Socket socket = ss.accept();
+				sockets.add(socket);
+				// Start a new thread for that client.
 				new ServerReceiverThread(socket).start();
 			}
 		} catch (IOException e) {

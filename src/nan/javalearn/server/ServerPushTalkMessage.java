@@ -15,6 +15,12 @@ public class ServerPushTalkMessage extends Message {
 		pack[0] = (byte)Message.MESSAGE_TYPE_SERVER_TALK;
 		this.setPack(pack);
 	}
+	
+	public ServerPushTalkMessage(int type, int length, byte[] bytes) {
+		this.setType(Message.MESSAGE_TYPE_SERVER_TALK);
+		this.setLength(length);
+		this.setContent(bytes);
+	}
 
 	public byte[] getMessagePack() {
 		if(this.getPack() != null){
