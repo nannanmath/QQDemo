@@ -24,7 +24,7 @@ public class MessageServer {
 				Socket socket = ss.accept();
 				System.out.println("One client connect in.");
 				sockets.add(socket);
-				friends.add(SocketUtil.getAddr(socket));
+				friends.add(SocketUtil.getHostname(socket));
 				// Start a new thread for that client.
 				new ServerReceiverThread(socket).start();
 			}

@@ -1,6 +1,7 @@
 package nan.javalearn.util;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -12,12 +13,41 @@ import nan.javalearn.common.Message;
 
 public class SocketUtil {
 	/**
-	 * 
-	 * @param socket intput socket.
+	 * Get IP address and port from Socket.
+ 	 * @param socket intput socket.
 	 * @return A String combined by IP address and port.
 	 */
 	public static String getAddr(Socket socket){
 		return socket.getInetAddress().getHostName() + ":" + socket.getPort();
+	}
+	 /**
+	  * Get host name from Socket.
+	  * @param socket Input Socket.
+	  * @return Host name.
+	  */
+	public static String getHostname(Socket socket) {
+		Process prc = null;
+		InputStream is = null;
+		try {
+			prc = Runtime.getRuntime().exec("hostname");
+			is = prc.getInputStream();
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			int len = 0;
+			byte[] buf = new byte[1024];
+			while((len = is.read(buf)) != -1) {
+				baos.write(buf);
+			}
+			return new String(baos.toByteArray());
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 	
 	/**
