@@ -1,9 +1,13 @@
 package nan.javalearn.server;
 
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.Transferable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
+import nan.javalearn.client.ClientRequestFriendsMessage;
 import nan.javalearn.common.Message;
 import nan.javalearn.common.MessageFactory;
 import nan.javalearn.util.SocketUtil;
@@ -52,10 +56,5 @@ public class ServerReceiverThread extends Thread {
 			}
 			}.start();
 		}
-		
-	}
-
-	
-	
-	
+	}	
 }

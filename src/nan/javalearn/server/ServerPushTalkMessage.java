@@ -7,7 +7,6 @@ public class ServerPushTalkMessage extends Message {
 	public ServerPushTalkMessage(String txt) {
 		this.setType(Message.MESSAGE_TYPE_SERVER_TALK);
 		byte[] bytes = txt.getBytes();
-		this.setLength(bytes.length);
 		this.setContent(bytes);
 	}
 
@@ -16,9 +15,8 @@ public class ServerPushTalkMessage extends Message {
 		this.setPack(pack);
 	}
 	
-	public ServerPushTalkMessage(int type, int length, byte[] bytes) {
+	public ServerPushTalkMessage(int type, byte[] bytes) {
 		this.setType(Message.MESSAGE_TYPE_SERVER_TALK);
-		this.setLength(length);
 		this.setContent(bytes);
 	}
 
@@ -29,7 +27,9 @@ public class ServerPushTalkMessage extends Message {
 			return super.getMessagePack();
 		}
 	}
-	
-	
-	
+
+	public Object getData() {
+		String txt = new String(getContent());
+		return txt;
+	}
 }

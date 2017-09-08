@@ -13,6 +13,11 @@ public class ClientRequestFriendsMessage extends Message {
 		bytes[0] = (byte)this.getType();
 		return bytes;
 	}
+
+	// No need.
+	public Object getData() {
+		return null;
+	}
 	
 	
 }

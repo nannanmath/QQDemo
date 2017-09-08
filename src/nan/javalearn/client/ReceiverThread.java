@@ -5,6 +5,10 @@ import java.io.InputStream;
 import java.net.Socket;
 import java.util.List;
 
+import nan.javalearn.common.Message;
+import nan.javalearn.common.MessageFactory;
+import nan.javalearn.server.ServerPushFriendsMessage;
+import nan.javalearn.server.ServerPushTalkMessage;
 import nan.javalearn.util.SocketUtil;
 
 public class ReceiverThread extends Thread {
@@ -29,17 +33,17 @@ public class ReceiverThread extends Thread {
 	}
 
 	private void processMsg() {
-		int type = SocketUtil.readMsgType(is);
-		int len = SocketUtil.readMsgLength(is);
-		byte[] bytes = SocketUtil.readMsgContent(is, len);
-		if(type == 0){ // friend list
-			List<String> friends = SocketUtil.readFriends(bytes);
+		Message msg = MessageFactory.parsePack(is);
+		int type = msg.getType();
+		switch(type){
+		case Message.MESSAGE_TYPE_SERVER_PUSH_FRIENDS:
+			List<String> friends = (List<String>)((ServerPushFriendsMessage)msg).getData();
 			qqWindow.refreshFriends(friends);
-		} else if(type == 1){ // message content
-			String message = SocketUtil.readMsgContent(bytes);
-			qqWindow.appendHistory(message);
-		} else {
-			System.out.println("Type is Error!");
+			break;
+		case Message.MESSAGE_TYPE_SERVER_TALK:
+			String txt = (String)((ServerPushTalkMessage)msg).getData();
+			qqWindow.appendHistory(txt);
+			break;
 		}
 	}
 	

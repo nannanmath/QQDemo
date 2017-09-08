@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import nan.javalearn.util.SocketUtil;
+
 public class MessageServer {
 	public static List<String> friends = new ArrayList<String>();
 	// Save all sockets who connect to server.
@@ -20,7 +22,9 @@ public class MessageServer {
 			System.out.println("Message Server Start!");
 			while(true){
 				Socket socket = ss.accept();
+				System.out.println("One client connect in.");
 				sockets.add(socket);
+				friends.add(SocketUtil.getAddr(socket));
 				// Start a new thread for that client.
 				new ServerReceiverThread(socket).start();
 			}

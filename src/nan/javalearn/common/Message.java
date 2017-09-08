@@ -2,7 +2,7 @@ package nan.javalearn.common;
 
 import nan.javalearn.util.SocketUtil;
 
-public class Message {
+public abstract class Message {
 	// Client push talk message to server.
 	public static final int MESSAGE_TYPE_CLIENT_TALK = 0;
 	// Client request for friends list.
@@ -13,9 +13,9 @@ public class Message {
 	public static final int MESSAGE_TYPE_SERVER_TALK = 3;
 	
 	private int type;
-	private int length;
+	private int length; // It will be set by SetContent() automatically.
 	private byte[] content = null;
-	private byte[] pack = null;
+	private byte[] pack = null; // Message pack.
 	
 	
 	public byte[] getPack() {
@@ -42,12 +42,6 @@ public class Message {
 		return length;
 	}
 
-
-	public void setLength(int length) {
-		this.length = length;
-	}
-
-
 	public byte[] getContent() {
 		return content;
 	}
@@ -55,6 +49,7 @@ public class Message {
 
 	public void setContent(byte[] content) {
 		this.content = content;
+		this.length = content.length; // Set length.
 	}
 
 	public byte[] getMessagePack(){
@@ -69,6 +64,8 @@ public class Message {
 		
 		return pack ;
 	}
+	
+	public abstract Object getData();
 	
 	
 }

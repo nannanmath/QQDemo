@@ -66,7 +66,7 @@ public class QQWindow extends JFrame{
 		btnSend.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				String txt = taContent.getText();
-				Comm comm = Comm.getInstance();
+				Comm comm = Comm.getInstance(QQWindow.this);
 				comm.sendText(txt);
 				taContent.setText("");
 			}

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import nan.javalearn.common.Message;
 import nan.javalearn.util.SocketUtil;
 
 public class SenderThread extends Thread {
@@ -20,10 +21,6 @@ public class SenderThread extends Thread {
 		}
 	}
 
-	public String getTxt() {
-		return txt;
-	}
-
 	public void setTxt(String txt) {
 		this.txt = txt;
 	}
@@ -31,7 +28,8 @@ public class SenderThread extends Thread {
 	public void run() {
 		while(true){
 			if(txt != null){
-				SocketUtil.sendMessage(os, txt);
+				Message msg = new ClientTalkMessage(txt);
+				SocketUtil.sendMessage(os, msg);
 				txt = "";	
 			}
 		}

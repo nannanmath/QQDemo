@@ -124,17 +124,6 @@ public class SocketUtil {
 		return null;
 	}
 	
-	
-	public static String sendMessage(OutputStream os, String txt){
-		try {
-			os.write(int2byteArray(txt.length()));
-			os.flush();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
 	public static String sendMessage(OutputStream os, Message msg){
 		try {
 			os.write(msg.getMessagePack());
