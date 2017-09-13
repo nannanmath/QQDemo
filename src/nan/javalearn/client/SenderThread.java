@@ -29,9 +29,10 @@ public class SenderThread extends Thread {
 		while(true){
 			if(txt != null){
 				Message msg = new ClientTalkMessage(txt);
-				SocketUtil.sendMessage(os, msg);
-				txt = "";	
+				SocketUtil.pushMessage(os, msg);
+				txt = null;	
 			}
+			Thread.yield();
 		}
 	}
 	

@@ -39,7 +39,8 @@ public class ServerPushFriendsMessage extends Message {
 	}
 	
 	public Object getData() {
-		List<String> friends = SocketUtil.readFriends(getContent());
+		byte[] content = getContent();
+		List<String> friends = SocketUtil.readFriends(content);
 		return friends;
 	}
 	

@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.util.List;
 
 import nan.javalearn.common.Message;
+import nan.javalearn.server.MessageServer;
 
 public class SocketUtil {
 	/**
@@ -37,6 +38,7 @@ public class SocketUtil {
 			while((len = is.read(buf)) != -1) {
 				baos.write(buf);
 			}
+			
 			return new String(baos.toByteArray());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -154,7 +156,7 @@ public class SocketUtil {
 		return null;
 	}
 	
-	public static String sendMessage(OutputStream os, Message msg){
+	public static String pushMessage(OutputStream os, Message msg){
 		try {
 			os.write(msg.getMessagePack());
 			os.flush();
@@ -163,6 +165,20 @@ public class SocketUtil {
 		}
 		return null;
 	}
+	
+	/**
+	 * Send message to each client who connects to server by threads.
+	 * @param msg
+	 */
+	public static void pushMessageToAll(List<Socket> sockets, Message msg) {
+		for(final Socket s : sockets){
+			try {
+				pushMessage(s.getOutputStream(), msg);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}	
 	
 	/**
 	 * Convert a <code>int</code> to <code>byte[]</code> as Big Endian.

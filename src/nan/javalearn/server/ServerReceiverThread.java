@@ -1,8 +1,5 @@
 package nan.javalearn.server;
 
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.ClipboardOwner;
-import java.awt.datatransfer.Transferable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
@@ -31,30 +28,14 @@ public class ServerReceiverThread extends Thread {
 			int type = msg.getType();
 			switch(type){
 			case Message.MESSAGE_TYPE_SERVER_PUSH_FRIENDS:
-				pushMessageToAll(msg);
+				SocketUtil.pushMessageToAll(MessageServer.sockets, msg);
 				break;
 			case Message.MESSAGE_TYPE_SERVER_TALK:
-				pushMessageToAll(msg);
+				SocketUtil.pushMessageToAll(MessageServer.sockets, msg);
 				break;
 			}
 		}
 	}
 
-	/**
-	 * Send message to each client who connects to server by threads.
-	 * @param msg
-	 */
-	private void pushMessageToAll(final Message msg) {
-		for(final Socket s : MessageServer.sockets){
-			new Thread(){
-			public void run() {
-				try {
-					SocketUtil.sendMessage(s.getOutputStream(), msg);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			}.start();
-		}
-	}	
+	
 }

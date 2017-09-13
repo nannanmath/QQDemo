@@ -37,7 +37,8 @@ public class ReceiverThread extends Thread {
 		int type = msg.getType();
 		switch(type){
 		case Message.MESSAGE_TYPE_SERVER_PUSH_FRIENDS:
-			List<String> friends = (List<String>)((ServerPushFriendsMessage)msg).getData();
+			ServerPushFriendsMessage spfm = (ServerPushFriendsMessage)msg;
+			List<String> friends = (List<String>)spfm.getData();
 			qqWindow.refreshFriends(friends);
 			break;
 		case Message.MESSAGE_TYPE_SERVER_TALK:

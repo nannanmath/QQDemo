@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import nan.javalearn.common.Message;
 import nan.javalearn.util.SocketUtil;
 
 public class MessageServer {
@@ -14,7 +15,7 @@ public class MessageServer {
 	// Save all sockets who connect to server.
 	public static List<Socket> sockets = new ArrayList<Socket>();
 	
-	private int port = 1234;
+	private int port = 1235;
 	
 	public void start() {
 		try {
@@ -25,6 +26,9 @@ public class MessageServer {
 				System.out.println("One client connect in.");
 				sockets.add(socket);
 				friends.add(SocketUtil.getHostname(socket));
+				//
+				Message msg = new ServerPushFriendsMessage(friends);
+				SocketUtil.pushMessageToAll(sockets, msg);
 				// Start a new thread for that client.
 				new ServerReceiverThread(socket).start();
 			}
